@@ -25,9 +25,9 @@ Tables of contents
   <img src="https://ca.slack-edge.com/T05SKMNUTNZ-U05UQG8AC04-a82dbf2db0d1-512" alt="My Picture Profile"/>
 </p>
 
-><center>This is My first assignment at <color>Revou</color>on MileStone 00</center>
+><center>This is My first assignment at <color>Ciputra</color>University</center>
 <div class="text-justify">
-I'm a junior Software Engineer from Malang, Indonesia. Graduated from **D3 Telecommunication Engineering** in 2019 and continued to **D4 Digital Telecommunication Network** study program majoring in Electrical Engineering with the Cumlaude predicate in 2020. Awarded as outstanding student in 2019 majoring in telecommunications engineering. Have experience in various company such as telecommunication company and logistic. Have a good negotiation skills and analytic about data to report and give the best analysis. And Now, for getting more knowledge and insight from the competent and experienced people, I'm joined at <span style="color:orange;font-weight: 700">Revou Software Engineering Full Stack</span>.
+I'm a Software Engineer from Malang, Indonesia. Graduated from **D3 Telecommunication Engineering** in 2019 and continued to **D4 Digital Telecommunication Network** study program majoring in Electrical Engineering with the Cumlaude predicate in 2020. Awarded as outstanding student in 2019 majoring in telecommunications engineering. Have experience in various company such as telecommunication company and logistic. Have a good negotiation skills and analytic about data to report and give the best analysis. And Now, for getting more knowledge and insight from the competent and experienced people, I'm joined at <span style="color:orange;font-weight: 700">Revou Software Engineering Full Stack</span>.
 </div>
 
 ## Let's being friend's
