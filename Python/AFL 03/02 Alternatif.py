@@ -8,9 +8,9 @@ def handle_error_decorator(our_function):
         try:
             return our_function(*args, **kwargs)
         except AkunError as e:
-            print("!"*30)
-            print(f"Unable to proceed your request.\n{our_function.__name__}: {e}")
-            print("!"*30)
+            print("z"*65)
+            print(f"Unable to proceed your request.\n{e}")
+            print("z"*65)
     return internal_wrapper
 
 class AkunError(Exception):
@@ -50,6 +50,7 @@ class AkunBank:
         messageInfo += (f"menjadi {locale.currency(self.__saldo, grouping=True)}")
         print(messageInfo)
             
+    @handle_error_decorator
     def setor(self, jumlah):
         old_saldo = self.__saldo
         if jumlah < 0 :
@@ -70,10 +71,11 @@ class AkunBank:
 
     @handle_error_decorator
     def tarik(self, jumlah):
+        old_saldo = self.__saldo
         if jumlah > self.saldo:
             errorMessage = (f"Saldo Tidak Mencukupi. Permintaan tarik dana :")
             errorMessage += (f"{locale.currency(jumlah, grouping=True)}. ")
-            errorMessage += (f"Sedangkan saldo anda sebesar : {locale.currency(self.saldo, grouping=True)}")
+            errorMessage += (f"\nSedangkan saldo anda sebesar : {locale.currency(self.saldo, grouping=True)}")
             raise AkunError(errorMessage)
         elif jumlah > 1000000:
             messageInfo = (f"Anda menarik sebesar {locale.currency(jumlah, grouping=True)}.")
@@ -82,7 +84,8 @@ class AkunBank:
                 
             self.saldo -= jumlah
             messageInfo = (f"Anda menarik saldo sebesar: {locale.currency(jumlah, grouping=True)}.")
-            messageInfo += (f"Saldo saat ini: {locale.currency(self.saldo, grouping=True)}")
+            messageInfo += (f"Saldo sebelumnya: {locale.currency(old_saldo, grouping=True)},")
+            messageInfo += (f"\nSaldo saat ini: {locale.currency(self.saldo, grouping=True)}")
             print(messageInfo)
             
     
@@ -111,9 +114,7 @@ def eksekusi(akun, aksi, *args):
         else:
             print("Aksi tidak dikenali.")
     except AkunError as e:
-        print("!"*30)
         print(e)
-        print("!"*30)
 
 # Contoh Penggunaan
 akun = AkunBank("123456789", 1000000)
@@ -128,13 +129,13 @@ eksekusi(akun, "ubah_saldo", -2000000)
 eksekusi(akun, "ubah_saldo", 100000)
 
 # Tambahkan setoran 5.000.000 (perlu audit)
-print("="*50)
+print("="*75)
 eksekusi(akun, "setor", 5000000)
-print("="*50)
+print("="*75)
 
-print("++"*50)
+print("+"*70)
 eksekusi(akun, "setor", -580000)
-print("++"*50)
+print("+"*70)
 
 # Tarik Saldo sebesar 10.000.000 (harus error)
 eksekusi(akun, "tarik", 10000000)
@@ -143,4 +144,4 @@ eksekusi(akun, "tarik", 10000000)
 eksekusi(akun, "hapus")
 
 # Tampilkan Saldo Terakhir
-print(f"Saldo Terakhir: {akun.saldo}")
+print(f"Saldo Terakhir: {locale.currency(akun.saldo, grouping=True)}")
