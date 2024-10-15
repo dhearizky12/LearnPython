@@ -46,29 +46,52 @@ class AkunBank:
         if value < 0:
             raise AkunError(f"Saldo Tidak Boleh Negatif")
         self.__saldo = value
-        print(f"Saldo berhasil diubah dari {locale.currency(old_saldo, grouping=True)} menjadi {locale.currency(self.__saldo, grouping=True)}")
-
-    @handle_error_decorator
+        messageInfo = (f"Saldo berhasil diubah dari {locale.currency(old_saldo, grouping=True)} ")
+        messageInfo += (f"menjadi {locale.currency(self.__saldo, grouping=True)}")
+        print(messageInfo)
+            
     def setor(self, jumlah):
         old_saldo = self.__saldo
+        if jumlah < 0 :
+            raise AkunError(f"Tidak boleh menyetor uang dalam bentuk negatif")
+        elif jumlah == 0 :
+            raise AkunError(f"Tidak boleh menyetor uang dalam bentuk 0")
         if jumlah > 1000000:
-            print(f"Anda menyetor sebesar {locale.currency(jumlah, grouping=True)}. Penyetoran dalam jumlah besar, diperlukan audit")
+            messageInfo = (f"Anda menyetor sebesar {locale.currency(jumlah, grouping=True)}.")
+            messageInfo += (f"Penyetoran dalam jumlah besar, diperlukan audit")
+            print(messageInfo)
+
         self.saldo += jumlah
-        print(f"Anda menyetor sebesar: {locale.currency(jumlah, grouping=True)}. Saldo sebelumnya: {locale.currency(old_saldo, grouping=True)}, Saldo saat ini: {locale.currency(self.saldo, grouping=True)}")
+        messageInfo = (f"Anda menyetor sebesar: {locale.currency(jumlah, grouping=True)}.")
+        messageInfo += (f"Saldo sebelumnya: {locale.currency(old_saldo, grouping=True)},")
+        messageInfo += (f"Saldo saat ini: {locale.currency(self.saldo, grouping=True)}")
+        print(messageInfo)
+            
 
     @handle_error_decorator
     def tarik(self, jumlah):
         if jumlah > self.saldo:
-            raise AkunError(f"Saldo Tidak Mencukupi. Permintaan tarik dana : {locale.currency(jumlah, grouping=True)}, Sedangkan saldo sebesar : {locale.currency(self.saldo, grouping=True)}")
+            errorMessage = (f"Saldo Tidak Mencukupi. Permintaan tarik dana :")
+            errorMessage += (f"{locale.currency(jumlah, grouping=True)}. ")
+            errorMessage += (f"Sedangkan saldo anda sebesar : {locale.currency(self.saldo, grouping=True)}")
+            raise AkunError(errorMessage)
         elif jumlah > 1000000:
-            print(f"Anda menarik sebesar {locale.currency(jumlah, grouping=True)}. Penarikan dalam jumlah besar, diperlukan audit")
-        self.saldo -= jumlah
-        print(f"Anda menarik saldo sebesar: {locale.currency(jumlah, grouping=True)}. Saldo saat ini: {locale.currency(self.saldo, grouping=True)}")
+            messageInfo = (f"Anda menarik sebesar {locale.currency(jumlah, grouping=True)}.")
+            messageInfo += (f"Penarikan dalam jumlah besar, diperlukan audit.")
+            print(messageInfo)
+                
+            self.saldo -= jumlah
+            messageInfo = (f"Anda menarik saldo sebesar: {locale.currency(jumlah, grouping=True)}.")
+            messageInfo += (f"Saldo saat ini: {locale.currency(self.saldo, grouping=True)}")
+            print(messageInfo)
+            
     
     @handle_error_decorator
     def hapus_rekening(self):
         if self.saldo != 0:
-            raise AkunError(f"Masih ada Saldo, Tidak Dapat Menghapus No rekening")
+            errorMessage = (f"Masih ada Saldo : {locale.currency(self.saldo, grouping=True)} ,")
+            errorMessage += (f"Tidak Dapat Menghapus No rekening")
+            raise AkunError(errorMessage)
         print(f"No rekening {self.nomor_rekening} berhasil dihapus.")
 
 # Contoh Penggunaan
@@ -108,6 +131,10 @@ eksekusi(akun, "ubah_saldo", 100000)
 print("="*50)
 eksekusi(akun, "setor", 5000000)
 print("="*50)
+
+print("++"*50)
+eksekusi(akun, "setor", -580000)
+print("++"*50)
 
 # Tarik Saldo sebesar 10.000.000 (harus error)
 eksekusi(akun, "tarik", 10000000)
